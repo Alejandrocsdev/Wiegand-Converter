@@ -1,7 +1,16 @@
 // Toggle Display
-function toggleDisplay(element, show) {
-  element.classList.toggle('hide', show)
-  element.querySelector('input').disabled = show
+function toggleDisplay(element, hidden) {
+  element.classList.toggle('hide', hidden)
+  element.querySelector('input').disabled = hidden
+}
+
+// Toggle isNull
+function toggleIsNullClass(element, content) {
+  if (content === 'null') {
+    element.classList.add('isNull')
+  } else {
+    element.classList.remove('isNull')
+  }
 }
 
 // Decimal to Binary
@@ -51,17 +60,17 @@ function decimalToBcd(decimalNumber, digitLength) {
   return [...decimalString].map(digit => parseInt(digit).toString(2).padStart(4, '0')).join('')
 }
 
-function codeToEightBcd(config, facilityCode, cardNumber) {
+function codeToBcd(config, facilityCode, cardNumber, bits) {
   const fcDec = decimalBitLength(config.facilityCode.bit)
   const cnDec = decimalBitLength(config.cardNumber.bit)
 
-  const facilityCodeBcd = decimalToBcd(facilityCode, fcDec)
   const cardNumberBcd = decimalToBcd(cardNumber, cnDec)
 
-  return facilityCodeBcd + cardNumberBcd
+  if (facilityCode) {
+    const facilityCodeBcd = decimalToBcd(facilityCode, fcDec)
+    const result = facilityCodeBcd + cardNumberBcd
+    return result.padStart(bits, '0')
+  } else {
+    return cardNumberBcd.padStart(bits, '0')
+  }
 }
-
-
-function codeToTenBcd(facilityCode, cardNumber) {}
-
-function codeToTwelveBcd(facilityCode, cardNumber) {}

@@ -15,7 +15,7 @@
   <form class="converter-form">
     <div class="wiegand-format-container">
       <label for="wiegand-format">Wiegand Format: </label>
-      <select class="wiegand-format" id="wiegand-format" name="wiegand-format">
+      <select id="wiegand-format" name="wiegand-format">
         <option value="w26-H10301">Wiegand 26 Bits (H10301)</option>
         <option value="w34-H10306">Wiegand 34 Bits (H10306)</option>
         <option value="w37-H10302">Wiegand 37 Bits (H10302)</option>
@@ -32,11 +32,9 @@
         <input type="number" id="card-number" name="card-number" min="0" required>
       </div>
     </div>
-    <div class="wiegand-binary-container">
+    <div class="outputs-container">
       <label for="wiegand-binary">Wiegand Binary: </label>
       <div id="wiegand-binary"></div>
-    </div>
-    <div class="export-formats-container">
       <label for="decimal">Decimal: </label>
       <div id="decimal"></div>
       <label for="hexadecimal">Hexadecimal: </label>

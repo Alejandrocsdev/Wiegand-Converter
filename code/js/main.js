@@ -1,13 +1,12 @@
 // Variables
-const wiegandFormatSelect = document.querySelector('.wiegand-format')
+const wiegandFormat = document.querySelector('#wiegand-format')
 const facilityCodeContainer = document.querySelector('.facility-code-container')
 const cardNumberContainer = document.querySelector('.card-number-container')
-const wiegandBinaryContainer = document.querySelector('.wiegand-binary-container')
-const exportFormatsContainer = document.querySelector('.export-formats-container')
+const outputsContainer = document.querySelector('.outputs-container')
 const converterForm = document.querySelector('.converter-form')
 
 // Event Listeners
-wiegandFormatSelect.addEventListener('change', updateInputAttributes)
+wiegandFormat.addEventListener('change', updateInputAttributes)
 converterForm.addEventListener('submit', converterSubmit)
 
 // Initialization
@@ -16,21 +15,23 @@ converterForm.addEventListener('submit', converterSubmit)
 })()
 
 function updateInputAttributes() {
-  const selectedFormat = wiegandFormatSelect.value
+  const selectedFormat = wiegandFormat.value
 
   const facilityCodeInput = facilityCodeContainer.querySelector('input')
   const cardNumberInput = cardNumberContainer.querySelector('input')
-  const wiegandBinaryOuput = wiegandBinaryContainer.querySelector('div')
-  const outputElements = exportFormatsContainer.querySelectorAll('div')
+  const outputElements = outputsContainer.querySelectorAll('div')
 
   facilityCodeInput.value = ''
   cardNumberInput.value = ''
-  wiegandBinaryOuput.textContent = ''
-  outputElements.forEach(div => div.textContent = '')
+  outputElements.forEach(div => {
+    div.textContent = ''
+    div.classList.remove('isNull')
+  })
 
   const config = wiegandConfig[selectedFormat]
 
-  toggleDisplay(facilityCodeContainer, !config.facilityCode.show)
+  toggleDisplay(facilityCodeContainer, config.facilityCode.hidden)
+
   const facilityCodeBit = config.facilityCode.bit
   facilityCodeInput.placeholder = `0~${2 ** facilityCodeBit - 1}`
   facilityCodeInput.max = 2 ** facilityCodeBit - 1
@@ -43,7 +44,7 @@ function updateInputAttributes() {
 function converterSubmit(event) {
   event.preventDefault()
 
-  const wiegandBinaryOuput = wiegandBinaryContainer.querySelector('div')
+  const wiegandBinaryOutput = outputsContainer.querySelector('#wiegand-binary')
 
   const formData = new FormData(converterForm)
 
@@ -55,24 +56,27 @@ function converterSubmit(event) {
 
   const [wiegandBinary, fullWiegandBinary] = wiegand(config, facilityCode, cardNumber)
 
-  wiegandBinaryOuput.textContent = fullWiegandBinary
+  wiegandBinaryOutput.textContent = fullWiegandBinary
 
-  const decimalOutput = exportFormatsContainer.querySelector('#decimal')
+  const decimalOutput = outputsContainer.querySelector('#decimal')
   decimalOutput.textContent = binaryToDecimal(wiegandBinary)
 
-  const hexadecimalOutput = exportFormatsContainer.querySelector('#hexadecimal')
+  const hexadecimalOutput = outputsContainer.querySelector('#hexadecimal')
   hexadecimalOutput.textContent = binaryToHexadecimal(wiegandBinary)
 
-  const bitLength = decimalBitsLength(config.facilityCode.bit, config.cardNumber.bit)
+  const bitsLength = decimalBitsLength(config.facilityCode.bit, config.cardNumber.bit)
 
-  const eightBcdOutput = exportFormatsContainer.querySelector('#eight-bcd')
-  eightBcdOutput.textContent = bitLength <= 8 ? codeToEightBcd(config, facilityCode, cardNumber) : 'null'
+  const eightBcdOutput = outputsContainer.querySelector('#eight-bcd')
+  eightBcdOutput.textContent = bitsLength <= 8 ? codeToBcd(config, facilityCode, cardNumber, 32) : 'null'
+  toggleIsNullClass(eightBcdOutput, eightBcdOutput.textContent)
 
-  const tenBcdOutput = exportFormatsContainer.querySelector('#ten-bcd')
-  tenBcdOutput.textContent = bitLength <= 10 ? codeToTenBcd(config, facilityCode, cardNumber) : 'null'
+  const tenBcdOutput = outputsContainer.querySelector('#ten-bcd')
+  tenBcdOutput.textContent = bitsLength <= 10 ? codeToBcd(config, facilityCode, cardNumber, 40) : 'null'
+  toggleIsNullClass(tenBcdOutput, tenBcdOutput.textContent)
 
-  const twelveBcdOutput = exportFormatsContainer.querySelector('#twelve-bcd')
-  twelveBcdOutput.textContent = bitLength <= 12 ? codeToTwelveBcd(config, facilityCode, cardNumber) : 'null'
+  const twelveBcdOutput = outputsContainer.querySelector('#twelve-bcd')
+  twelveBcdOutput.textContent = bitsLength <= 12 ? codeToBcd(config, facilityCode, cardNumber, 48) : 'null'
+  toggleIsNullClass(twelveBcdOutput, twelveBcdOutput.textContent)
 }
 
 function wiegand(config, facilityCode, cardNumber) {
@@ -113,12 +117,10 @@ function concatBinaryString(config, facilityCode, cardNumber) {
 }
 
 function calculateParity(binaryString, type) {
-  // Ensure the input is a valid binary string
   if (!/^[01]+$/.test(binaryString)) {
     throw new Error('Invalid binary string. Only 0 and 1 are allowed.')
   }
 
-  // Count the number of 1's in the binary string
   const onesCount = [...binaryString].filter(bit => bit === '1').length
 
   switch (type) {

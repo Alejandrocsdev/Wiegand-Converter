@@ -2,13 +2,9 @@
   font-family: "Fira Code";
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-}
-
 body {
   margin: 0;
+  background-color: #d6ccc2;
 }
 
 header {
@@ -21,18 +17,22 @@ header {
   align-items: center;
 }
 
+.converter-form {
+  padding: 2.5rem 0;
+}
+
 .wiegand-format-container,
 .card-data-container,
-.wiegand-binary-container,
-.export-formats-container {
-  height: 6.5rem;
+.outputs-container,
+.convert-container {
+  padding-bottom: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
 }
 
-.export-formats-container {
+.outputs-container {
   height: auto;
   flex-direction: column;
 }
@@ -43,7 +43,7 @@ header {
 #eight-bcd,
 #ten-bcd,
 #twelve-bcd {
-  width: 22.5rem;
+  width: 30rem;
   height: 2rem;
   padding: 0.2rem;
   font-weight: 500;
@@ -59,16 +59,14 @@ header {
   background-color: #023047;
 }
 
-.convert-container {
-  height: 6.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .convert {
   font-size: 1.5rem;
   cursor: pointer;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 .facility-code-container input:valid,
@@ -83,4 +81,8 @@ header {
 
 .hide {
   display: none;
+}
+
+.isNull {
+  background-color: #f07167 !important;
 }
