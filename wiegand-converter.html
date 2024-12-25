@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="code/image/fae-logo.png">
+  <link rel="stylesheet" href="code/style.css">
+  <link rel="stylesheet" href="code/font/font.css">
+  <title>Wiegand Converter</title>
+</head>
+
+<body>
+  <header>Wiegand Converter</header>
+  <div class="wiegand-format-container">
+    <label for="wiegand-format">Wiegand Format: </label>
+    <select id="wiegand-format">
+      <option value="w26-H10301">Wiegand 26 Bits (H10301)</option>
+      <option value="w34-H10306">Wiegand 34 Bits (H10306)</option>
+      <option value="w37-H10302">Wiegand 37 Bits (H10302)</option>
+      <option value="w37-H10304">Wiegand 37 Bits (H10304)</option>
+    </select>
+  </div>
+  <div class="card-data-container">
+    <div class="facility-code-container">
+      <label for="facility-code">Facility Code: </label>
+      <input type="number" id="facility-code" min="0" required>
+    </div>
+    <div class="card-number-container">
+      <label for="card-number">Card Number: </label>
+      <input type="number" id="card-number" min="0" required>
+    </div>
+  </div>
+  <div class="wiegand-binary-container">
+    <label for="wiegand-binary">Wiegand Binary: </label>
+    <input type="text" id="wiegand-binary">
+  </div>
+  <div class="export-formats-container">
+    <label for="decimal">Decimal: </label>
+    <input type="text" id="decimal">
+    <label for="hexadecimal">Hexadecimal: </label>
+    <input type="text" id="hexadecimal">
+    <label for="8bcd">8BCD: </label>
+    <input type="text" id="8bcd">
+    <label for="10bcd">10BCD: </label>
+    <input type="text" id="10bcd">
+  </div>
+  <script src="code/js/utils.js"></script>
+  <script src="code/js/functions.js"></script>
+  <script src="code/js/main.js"></script>
+</body>
+
+</html>
