@@ -12,7 +12,7 @@ body {
 }
 
 header {
-  height: 100px;
+  height: 6.5rem;
   font-size: 2rem;
   color: #fefae0;
   background-color: #264653;
@@ -25,16 +25,50 @@ header {
 .card-data-container,
 .wiegand-binary-container,
 .export-formats-container {
-  height: 100px;
+  height: 6.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
 }
 
 .export-formats-container {
   height: auto;
   flex-direction: column;
+}
+
+#wiegand-binary,
+#decimal,
+#hexadecimal,
+#eight-bcd,
+#ten-bcd,
+#twelve-bcd {
+  width: 22.5rem;
+  height: 2rem;
+  padding: 0.2rem;
+  font-weight: 500;
+  color: #f5ebe0;
+  background-color: #2a9d8f;
+  border: 0.1rem solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#wiegand-binary {
+  background-color: #023047;
+}
+
+.convert-container {
+  height: 6.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.convert {
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 .facility-code-container input:valid,
