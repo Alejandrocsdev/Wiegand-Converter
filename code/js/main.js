@@ -88,20 +88,41 @@ function wiegand(config, facilityCode, cardNumber) {
 }
 
 function addParities(config, binaryString) {
-  const epBit = config.epBit
-  const opBit = config.opBit
+  if (config.format === 'w35-Corporate-1000') {
+    const epBit = config.epBit
+    const op1Bit = config.op1Bit
+    const op2Bit = config.op2Bit
 
-  const length = binaryString.length
+    const length = binaryString.length
 
-  const epBinary = binaryString.slice(0, epBit)
-  const opBinary = binaryString.slice(length - opBit)
+    let epBinary = ''
+    let op1Binary = ''
+    let op2Binary = ''
 
-  const ep = calculateParity(epBinary, 'EP')
-  const op = calculateParity(opBinary, 'OP')
+    for (let i = 0; i < length; i++) {
+      if (i % 3 !== 2) {
+        epBinary = epBinary.concat('', binaryString[i])
+        console.log('epBinary', epBinary)
+      }
+    }
+    console.log('binaryString', binaryString)
+    console.log('epBinary', epBinary)
+  } else {
+    const epBit = config.epBit
+    const opBit = config.opBit
 
-  const result = ep.concat('', binaryString, op)
+    const length = binaryString.length
 
-  return result
+    const epBinary = binaryString.slice(0, epBit)
+    const opBinary = binaryString.slice(length - opBit)
+
+    const ep = calculateParity(epBinary, 'EP')
+    const op = calculateParity(opBinary, 'OP')
+
+    const result = ep.concat('', binaryString, op)
+
+    return result
+  }
 }
 
 function concatBinaryString(config, facilityCode, cardNumber) {
