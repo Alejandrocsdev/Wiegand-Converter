@@ -13,6 +13,12 @@ This tool allows you to input a **Facility Code** and **Card Number**, choose a 
 
 ---
 
+## 🖼️ Preview
+
+![Wiegand Converter Preview](./assets/preview.png)
+
+---
+
 ## ✨ Features
 
 - Supports multiple Wiegand formats:
